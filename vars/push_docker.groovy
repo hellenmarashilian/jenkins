@@ -9,8 +9,8 @@ def call(Map input_values) {
         NEXUS_PASSWORD: '2188'
     ]
     def map_to_apply = default_values + input_values
-    //pipeline {
-        //agent any
+    pipeline {
+        agent any
         stages {
             stage('Checkout Code') {
                 steps {
@@ -42,7 +42,6 @@ def call(Map input_values) {
                     }
                 }
             }
-        //}
+        }
     }
 }
-return this
