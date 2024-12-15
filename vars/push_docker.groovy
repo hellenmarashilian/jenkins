@@ -33,9 +33,8 @@ def call(Map input_values) {
                 steps {
                     script {
                         echo 'Running SAST Scan with Docker Scout...'
-                        bat """
-                            docker scout cves --exit-code 1 --only-severity critical "${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG}" 
-                        """
+                        bat "docker scout cves \\"${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG}\\" --exit-code 1 --only-severity critical"
+
         }
     }
 }
