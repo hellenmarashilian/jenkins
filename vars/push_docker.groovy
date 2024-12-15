@@ -29,7 +29,6 @@ def call(Map input_values) {
                         }
                     }
                 }
-            }
             stage('Docker Scout SAST Scan') {
                 steps {
                     script {
@@ -39,10 +38,10 @@ def call(Map input_values) {
                                 echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
                                 docker scout cves local://${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG} --exit-code --only-severity critical
                             """
-        }
-    }
-}
-
+                        }
+                    }
+                }
+            }
 
             stage('Push to Nexus Repository') {
                 steps {
