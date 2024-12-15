@@ -25,7 +25,12 @@ def call(Map input_values) {
                 steps {
                     script {
                         echo 'Building Docker image...'
-                        bat "docker build -t ${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG} ./${map_to_apply.IMAGE_NAME}"
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            bat """
+                                echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                                docker scout cves ${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG} --exit-code --only-severity critical
+                            """
+                        }
                     }
                 }
             }
