@@ -28,7 +28,7 @@ def call(Map input_values) {
                         withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                             bat """
                                 echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                                docker scout cves ${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG} --exit-code --only-severity critical
+                                docker scout cves local://${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG} --exit-code --only-severity critical
                             """
                         }
                     }
