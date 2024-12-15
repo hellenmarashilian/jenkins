@@ -29,6 +29,17 @@ def call(Map input_values) {
                     }
                 }
             }
+            stage('Docker Scout SAST Scan') {
+                steps {
+                    script {
+                        echo 'Running SAST Scan with Docker Scout...'
+                        bat """
+                            docker scout cves ${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG} --exit-code 1 --only-severity critical
+                        """
+        }
+    }
+}
+
 
             stage('Push to Nexus Repository') {
                 steps {
