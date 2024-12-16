@@ -34,6 +34,11 @@ def call(Map input_values) {
                     script {
                         echo 'Running SAST Scan with Docker Scout...'
                         withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            echo "Username: $DOCKER_USERNAME"
+                            echo "Password length: ${DOCKER_PASSWORD.length()}"
+                        }
+                        echo %USERPROFILE%
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                             bat """
                                 echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
                                 docker scout cves local://${map_to_apply.IMAGE_NAME}:${map_to_apply.IMAGE_TAG} --exit-code --only-severity critical
